@@ -1,6 +1,13 @@
 'use strict';
 
-try{importScripts('lib/ffmpeg.min.js');}catch(_){postMessage({id:-1,type:'error',payload:{message:'Missing ffmpeg.min.js in /lib/.'}});}
+try{
+  importScripts('lib/regenerator-runtime.min.js','lib/ffmpeg.min.js');
+  if(!self.FFmpeg){
+    console.error('FFmpeg global missing after importScripts');
+  }
+}catch(_){
+  postMessage({id:-1,type:'error',payload:{message:'Missing ffmpeg runtime files in /lib/.'}});
+}
 
 let ffmpeg,loading;
 

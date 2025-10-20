@@ -1,5 +1,6 @@
 Download and place the following files here before building in the browser:
 - jszip.min.js
+- regenerator-runtime.min.js
 - ffmpeg.min.js
 - ffmpeg-core.js
 - ffmpeg-core.worker.js
