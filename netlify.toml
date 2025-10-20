@@ -1,0 +1,9 @@
+[[headers]]
+  for = "/*"
+  [headers.values]
+  Content-Security-Policy = "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'self'; worker-src 'self'; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';"
+
+[[headers]]
+  for = "/templates/*"
+  [headers.values]
+  Cache-Control = "public, max-age=604800, immutable"

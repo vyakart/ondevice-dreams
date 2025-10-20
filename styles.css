@@ -1,0 +1,31 @@
+:root{color-scheme:light dark;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#0f172a;color:#f8fafc}
+body{margin:0;display:flex;justify-content:center;min-height:100vh;padding:2rem 1rem 3rem;box-sizing:border-box}
+main{width:min(900px,100%);display:grid;gap:1rem}
+header{text-align:center}
+h1{margin:0;font-size:clamp(2rem,5vw,3rem)}
+section{margin:0}
+.card{background:rgba(15,23,42,.85);border:1px solid rgba(148,163,184,.25);border-radius:12px;padding:1.1rem;box-shadow:0 12px 28px rgba(2,6,23,.45);backdrop-filter:blur(8px)}
+.grid{display:grid;gap:.8rem}
+.grid label{display:grid;gap:.35rem;font-weight:600}
+input[type="text"]{border-radius:9px;padding:.55rem .75rem;border:1px solid rgba(148,163,184,.4);background:rgba(15,23,42,.6);color:inherit}
+input[type="text"]:focus-visible{outline:2px solid #60a5fa;outline-offset:2px}
+fieldset{border:1px solid rgba(148,163,184,.4);border-radius:10px;padding:.6rem .8rem .4rem;display:flex;flex-wrap:wrap;gap:.8rem}
+legend{padding:0 .4rem;font-weight:600}
+button,.download{font:inherit;border:none;border-radius:999px;padding:.6rem 1.2rem;cursor:pointer;transition:transform .1s ease,box-shadow .2s ease,background .2s ease}
+button{background:linear-gradient(120deg,#60a5fa,#a855f7);color:#0b1120;font-weight:600}
+button.primary{width:100%;margin-bottom:.8rem}
+button:hover,button:focus-visible,.download:hover,.download:focus-visible{transform:translateY(-1px);box-shadow:0 8px 18px rgba(96,165,250,.35)}
+button:disabled{opacity:.6;cursor:wait;transform:none;box-shadow:none}
+#drop-zone{border:2px dashed rgba(148,163,184,.4);border-radius:12px;padding:1.3rem;text-align:center;display:grid;gap:.6rem}
+#drop-zone.dragover{border-color:#60a5fa;background:rgba(96,165,250,.1)}
+.controls{display:grid;gap:.6rem}
+progress{width:100%;height:12px;border-radius:999px;background:rgba(15,23,42,.8);overflow:hidden}
+progress::-webkit-progress-value,progress::-moz-progress-bar{background:linear-gradient(120deg,#38bdf8,#a855f7)}
+#status{min-height:1.1rem;color:#bfdbfe}
+#status.error{color:#f87171}
+#log{margin:0;max-height:150px;overflow:auto;font-size:.85rem;background:rgba(2,6,23,.5);border-radius:10px;padding:.8rem;border:1px solid rgba(15,23,42,.9)}
+.download{display:block;text-align:center;margin-bottom:.5rem;color:#22d3ee;text-decoration:none;background:rgba(8,145,178,.18);border:1px solid rgba(34,211,238,.24)}
+.hint{font-size:.9rem;color:#cbd5f5}
+.meta{font-size:.9rem;color:#94a3b8}
+ul{margin:.4rem 0 0;padding-left:1.1rem}
+@media(max-width:640px){body{padding:1.5rem .8rem 2rem} fieldset{flex-direction:column}}

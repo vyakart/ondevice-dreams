@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'self'; worker-src 'self'; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Video → macOS Screen Saver</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Video → macOS Screen Saver</h1>
+      <p>Build a private .saver bundle without leaving your browser.</p>
+    </header>
+
+    <section class="card drop" aria-label="Video selection">
+      <div id="drop-zone">
+        <p>Drag a video here or</p>
+        <button id="browse-btn" type="button">Browse…</button>
+        <input id="file-input" type="file" accept="video/*" hidden>
+        <p id="file-meta" class="meta"></p>
+      </div>
+      <p class="hint">Videos stay local. >500&nbsp;MB may be slow—use Passthrough if already H.264/AAC.</p>
+    </section>
+
+    <section class="card grid">
+      <label> Screensaver Name
+        <input id="saver-name" type="text" maxlength="60" value="MySaver" autocomplete="off" spellcheck="false">
+      </label>
+      <label> Bundle Identifier
+        <input id="bundle-id" type="text" maxlength="120" autocomplete="off" spellcheck="false">
+      </label>
+      <fieldset>
+        <legend>Transcode Mode</legend>
+        <label><input type="radio" name="transcode" value="auto" checked>Auto</label>
+        <label><input type="radio" name="transcode" value="force">Force H.264/AAC</label>
+        <label><input type="radio" name="transcode" value="passthrough">Passthrough</label>
+      </fieldset>
+    </section>
+
+    <section class="card controls">
+      <button id="build-btn" type="button" class="primary">Build .saver ZIP</button>
+      <progress id="progress" value="0" max="1" aria-live="polite"></progress>
+      <div id="status" role="status" aria-live="polite">Waiting for input…</div>
+      <pre id="log" aria-live="polite"></pre>
+    </section>
+
+    <section class="card" id="downloads" hidden>
+      <h2>Downloads</h2>
+      <a id="bundle-link" class="download" download>Download Screensaver</a>
+      <a id="installer-link" class="download" download>Download Installer</a>
+      <p class="hint">Manual install: copy to <code>~/Library/Screen Savers/</code>.</p>
+    </section>
+
+    <section class="card meta">
+      <h2>Status &amp; Tips</h2>
+      <p id="template-status" class="meta">Checking for template…</p>
+      <ul>
+        <li>FFmpeg runs in a background worker; no uploads occur.</li>
+        <li>Gatekeeper may warn on first run—allow via System Settings.</li>
+        <li>Works offline after first visit (service worker cache).</li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="lib/jszip.min.js" defer></script>
+  <script src="lib/ffmpeg.min.js" defer></script>
+  <script src="app.js" defer></script>
+</body>
+</html>
