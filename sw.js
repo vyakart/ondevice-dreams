@@ -1,7 +1,7 @@
 'use strict';
 
 const CACHE='video-saver-v1';
-const ASSETS=['./','index.html','styles.css','app.js','ffmpeg-worker.js','lib/jszip.min.js','lib/ffmpeg.min.js','lib/ffmpeg-core.js','lib/ffmpeg-core.wasm','templates/VideoSaverTemplate.saver.zip'];
+const ASSETS=['./','index.html','styles.css','app.js','ffmpeg-worker.js','lib/jszip.min.js','lib/ffmpeg.min.js','lib/ffmpeg-core.js','lib/ffmpeg-core.worker.js','lib/ffmpeg-core.wasm','templates/VideoSaverTemplate.saver.zip'];
 
 self.addEventListener('install',(event)=>{
   event.waitUntil(caches.open(CACHE).then(async(cache)=>{
