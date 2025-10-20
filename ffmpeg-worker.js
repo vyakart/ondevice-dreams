@@ -13,7 +13,7 @@ const ensureFFmpeg=async()=>{
   if(ffmpeg) return ffmpeg;
   if(!self.FFmpeg||typeof self.FFmpeg.createFFmpeg!=='function') throw new Error('FFmpeg loader not available.');
   if(!loading){
-    ffmpeg=self.FFmpeg.createFFmpeg({log:false,corePath:'lib/ffmpeg-core.wasm',workerPath:'lib/ffmpeg-core.worker.js'});
+    ffmpeg=self.FFmpeg.createFFmpeg({log:false,corePath:'lib/ffmpeg-core.js'});
     loading=ffmpeg.load();
   }
   await loading;
