@@ -126,6 +126,7 @@
       setStatus('Inspecting video…');
       setProgress(0.25);
       const mode = getMode();
+      appendLog(`Mode selected: ${mode}`);
       const probe = await safeProbe(sourceBuffer, workerBridge);
       if (probe) {
         appendLog(
@@ -190,9 +191,13 @@
   async function safeProbe(buffer, bridge) {
     try {
       const copy = buffer.slice(0);
-      return await bridge.probe(copy, { name: `probe-${Date.now()}` });
+      appendLog('Sending probe request to FFmpeg worker…');
+      const result = await bridge.probe(copy, { name: `probe-${Date.now()}` });
+      appendLog('Probe response received.');
+      return result;
     } catch (error) {
       console.warn('Probe failed', error);
+      appendLog(`Probe failed: ${error?.message || error}`);
       return null;
     }
   }
@@ -201,9 +206,11 @@
     const notes = [];
     const copy = () => sourceBuffer.slice(0);
     const hasAudioKnown = probe?.hasAudio;
+    appendLog(`Worker plan: audioKnown=${hasAudioKnown === undefined ? 'unknown' : hasAudioKnown}`);
 
     const runTranscode = async (reason) => {
       notes.push(reason);
+      appendLog(reason);
       progressHandle.startWorker(0.33, 0.5);
       try {
         const result = await bridge.transcode(copy(), {
@@ -230,6 +237,7 @@
 
     const runRemux = async (reason) => {
       notes.push(reason);
+      appendLog(reason);
       progressHandle.startWorker(0.33, 0.35);
       try {
         const response = await bridge.remux(copy(), {

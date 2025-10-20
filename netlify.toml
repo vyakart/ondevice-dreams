@@ -1,7 +1,9 @@
 [[headers]]
   for = "/*"
   [headers.values]
-Content-Security-Policy = "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self' 'unsafe-eval' 'wasm-unsafe-eval'; connect-src 'self'; worker-src 'self'; media-src 'self'; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self';"
+  Content-Security-Policy = "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self' 'unsafe-eval' 'wasm-unsafe-eval'; connect-src 'self'; worker-src 'self'; media-src 'self'; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self';"
+  Cross-Origin-Opener-Policy = "same-origin"
+  Cross-Origin-Embedder-Policy = "require-corp"
 
 [[headers]]
   for = "/templates/*"
