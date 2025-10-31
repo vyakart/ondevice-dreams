@@ -167,12 +167,14 @@
         type: 'blob',
         compression: 'DEFLATE',
         compressionOptions: { level: 6 },
+        platform: 'UNIX',
       });
       const installerZip = await createInstaller(saverZip, newRoot.slice(0, -1));
       const installerBlob = await installerZip.generateAsync({
         type: 'blob',
         compression: 'DEFLATE',
         compressionOptions: { level: 6 },
+        platform: 'UNIX',
       });
 
       setDownloads(bundleBlob, `${saverName}.saver.zip`, installerBlob, `${saverName}-install.zip`);
@@ -534,7 +536,10 @@
         clone.folder(target);
       } else {
         const data = await entry.async('uint8array');
-        clone.file(target, data, { binary: true, unixPermissions: entry.unixPermissions || 0o644 });
+        const isMachBinary =
+          target.startsWith(`${newRoot}Contents/MacOS/`) && !target.endsWith('/');
+        const permissions = entry.unixPermissions ?? (isMachBinary ? 0o755 : 0o644);
+        clone.file(target, data, { binary: true, unixPermissions: permissions });
       }
     }
     return clone;
@@ -547,7 +552,9 @@
         zip.folder(path);
       } else {
         const data = await entry.async('uint8array');
-        zip.file(path, data, { binary: true, unixPermissions: entry.unixPermissions || 0o644 });
+        const isMachBinary = path.startsWith(`${rootName}.saver/Contents/MacOS/`) && !path.endsWith('/');
+        const permissions = entry.unixPermissions ?? (isMachBinary ? 0o755 : 0o644);
+        zip.file(path, data, { binary: true, unixPermissions: permissions });
       }
     }
     zip.file('install.command', installerScript(rootName), { unixPermissions: 0o755 });
