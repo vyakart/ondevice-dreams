@@ -102,7 +102,7 @@ async function bootstrap() {
   try {
     const res = await fetch(TEMPLATE_URL, { method: 'HEAD' });
     if (res.ok) {
-      refs.templateStatus.textContent = 'Template detected. Ready to build.';
+      refs.templateStatus.innerHTML = '<span class="prompt">STATUS:</span> Template detected. Ready to build.';
       refs.templateStatus.classList.remove('warning');
     } else {
       markTemplateMissing();
@@ -123,8 +123,8 @@ async function bootstrap() {
  * Mark template as missing in UI
  */
 function markTemplateMissing() {
-  refs.templateStatus.textContent =
-    'Template missing. Place VideoSaverTemplate.saver.zip under /templates/.';
+  refs.templateStatus.innerHTML =
+    '<span class="prompt">STATUS:</span> <span class="warning">Template missing. Place VideoSaverTemplate.saver.zip under /templates/.</span>';
   refs.templateStatus.classList.add('warning');
 }
 
@@ -177,15 +177,25 @@ async function buildSaver() {
     // Read video file
     uiState.setStatus('Reading video…');
     progressTracker.set(0.15);
+
+    // Add progress feedback for large files
+    const fileSize = selectedFile.size;
+    const sizeMB = (fileSize / (1024 * 1024)).toFixed(1);
+    uiState.appendLog(`Reading ${sizeMB} MB file into memory...`);
+
     const sourceBuffer = await selectedFile.arrayBuffer();
+    uiState.appendLog(`File loaded into memory (${sizeMB} MB)`);
+    progressTracker.set(0.2);
 
     // Probe video
     uiState.setStatus('Inspecting video…');
     progressTracker.set(0.25);
     const mode = getMode();
     uiState.appendLog(`Mode selected: ${mode}`);
+    uiState.appendLog(`Analyzing video streams (this may take a moment for large files)...`);
 
     const probe = await safeProbe(sourceBuffer);
+    progressTracker.set(0.28);
 
     if (probe) {
       uiState.appendLog(

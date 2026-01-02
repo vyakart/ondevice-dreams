@@ -2,70 +2,160 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self' 'unsafe-eval' 'wasm-unsafe-eval'; connect-src 'self'; worker-src 'self'; media-src 'self'; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval' 'wasm-unsafe-eval'; connect-src 'self'; worker-src 'self'; media-src 'self'; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self';">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Video → macOS Screen Saver</title>
+  <title>ONDEVICE-DREAMS v1.0 // Terminal Interface</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main>
-    <header>
-      <h1>Video → macOS Screen Saver</h1>
-      <p>Build a private .saver bundle without leaving your browser.</p>
+  <div class="scanlines"></div>
+  <div class="crt-overlay"></div>
+
+  <main class="terminal">
+    <header class="ascii-header">
+      <pre class="ascii-art">
+ ██████  ███    ██ ██████  ███████ ██    ██ ██  ██████ ███████
+██    ██ ████   ██ ██   ██ ██      ██    ██ ██ ██      ██
+██    ██ ██ ██  ██ ██   ██ █████   ██    ██ ██ ██      █████
+██    ██ ██  ██ ██ ██   ██ ██       ██  ██  ██ ██      ██
+ ██████  ██   ████ ██████  ███████   ████   ██  ██████ ███████
+
+██████  ██████  ███████  █████  ███    ███ ███████
+██   ██ ██   ██ ██      ██   ██ ████  ████ ██
+██   ██ ██████  █████   ███████ ██ ████ ██ ███████
+██   ██ ██   ██ ██      ██   ██ ██  ██  ██      ██
+██████  ██   ██ ███████ ██   ██ ██      ██ ███████
+      </pre>
+      <div class="system-info">
+        <span class="prompt">SYSTEM:</span> Video → macOS Screensaver Builder v1.0
+      </div>
+      <div class="system-info">
+        <span class="prompt">MODE:</span> Client-Side Processing // Zero Uploads
+      </div>
+      <div class="status-line" id="template-status">
+        <span class="prompt">STATUS:</span> Initializing...
+      </div>
     </header>
 
-    <section class="card drop" aria-label="Video selection">
-      <div id="drop-zone">
-        <p>Drag a video here or</p>
-        <button id="browse-btn" type="button">Browse…</button>
-        <input id="file-input" type="file" accept="video/*" hidden>
-        <p id="file-meta" class="meta"></p>
+    <!-- File Upload Section -->
+    <section class="terminal-section">
+      <div class="section-header">
+        <span class="prompt">&gt;&gt;</span> INPUT STREAM
       </div>
-      <p class="hint">Videos stay local. >500&nbsp;MB may be slow—use Passthrough if already H.264/AAC.</p>
+      <div id="drop-zone" class="drop-zone">
+        <div class="drop-content">
+          <span class="upload-icon">📁</span>
+          <p class="drop-text">DROP VIDEO FILE HERE</p>
+          <p class="drop-hint">or</p>
+          <button id="browse-btn" type="button" class="terminal-btn">BROWSE FILES</button>
+          <input id="file-input" type="file" accept="video/*" hidden>
+        </div>
+        <div id="file-meta" class="file-info"></div>
+      </div>
+      <div class="hint-text">
+        <span class="prompt">INFO:</span> Files remain local. Large files (>500MB) perform better with Passthrough mode.
+      </div>
     </section>
 
-    <section class="card grid">
-      <label> Screensaver Name
-        <input id="saver-name" type="text" maxlength="60" value="MySaver" autocomplete="off" spellcheck="false">
-      </label>
-      <label> Bundle Identifier
-        <input id="bundle-id" type="text" maxlength="120" autocomplete="off" spellcheck="false">
-      </label>
-      <fieldset>
-        <legend>Transcode Mode</legend>
-        <label><input type="radio" name="transcode" value="auto" checked>Auto</label>
-        <label><input type="radio" name="transcode" value="force">Force H.264/AAC</label>
-        <label><input type="radio" name="transcode" value="passthrough">Passthrough</label>
-      </fieldset>
+    <!-- Configuration Section -->
+    <section class="terminal-section">
+      <div class="section-header">
+        <span class="prompt">&gt;&gt;</span> CONFIGURATION
+      </div>
+      <div class="config-grid">
+        <div class="input-group">
+          <label class="input-label">
+            <span class="prompt">NAME:</span>
+            <input id="saver-name" type="text" maxlength="60" value="MySaver" autocomplete="off" spellcheck="false" class="terminal-input">
+          </label>
+        </div>
+        <div class="input-group">
+          <label class="input-label">
+            <span class="prompt">BUNDLE_ID:</span>
+            <input id="bundle-id" type="text" maxlength="120" autocomplete="off" spellcheck="false" class="terminal-input">
+          </label>
+        </div>
+        <div class="input-group full-width">
+          <fieldset class="transcode-mode">
+            <legend><span class="prompt">TRANSCODE_MODE:</span></legend>
+            <label class="radio-label">
+              <input type="radio" name="transcode" value="auto" checked>
+              <span class="radio-text">AUTO</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="transcode" value="force">
+              <span class="radio-text">FORCE_H264</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="transcode" value="passthrough">
+              <span class="radio-text">PASSTHROUGH</span>
+            </label>
+          </fieldset>
+        </div>
+      </div>
     </section>
 
-    <section class="card controls">
-      <button id="build-btn" type="button" class="primary">Build .saver ZIP</button>
-      <progress id="progress" value="0" max="1" aria-live="polite"></progress>
-      <div id="status" role="status" aria-live="polite">Waiting for input…</div>
-      <pre id="log" aria-live="polite"></pre>
+    <!-- Build Section -->
+    <section class="terminal-section">
+      <div class="section-header">
+        <span class="prompt">&gt;&gt;</span> BUILD CONTROL
+      </div>
+      <button id="build-btn" type="button" class="terminal-btn primary">
+        <span class="btn-icon">▶</span> EXECUTE BUILD
+      </button>
+      <div class="progress-container">
+        <div class="progress-label">
+          <span class="prompt">PROGRESS:</span>
+          <span id="status" class="status-text">Waiting for input...</span>
+        </div>
+        <progress id="progress" value="0" max="1" class="terminal-progress"></progress>
+      </div>
     </section>
 
-    <section class="card" id="downloads" hidden>
-      <h2>Downloads</h2>
-      <a id="bundle-link" class="download" download>Download Screensaver</a>
-      <a id="installer-link" class="download" download>Download Installer</a>
-      <p class="hint">Manual install: copy to <code>~/Library/Screen Savers/</code>.</p>
+    <!-- Log Section -->
+    <section class="terminal-section">
+      <div class="section-header">
+        <span class="prompt">&gt;&gt;</span> SYSTEM LOG
+      </div>
+      <pre id="log" class="log-output" role="log" aria-live="polite"></pre>
     </section>
 
-    <section class="card meta">
-      <h2>Status &amp; Tips</h2>
-      <p id="template-status" class="meta">Checking for template…</p>
-      <ul>
-        <li>FFmpeg runs in a background worker; no uploads occur.</li>
-        <li>Gatekeeper may warn on first run—allow via System Settings.</li>
-        <li>Works offline after first visit (service worker cache).</li>
+    <!-- Downloads Section -->
+    <section class="terminal-section" id="downloads" hidden>
+      <div class="section-header">
+        <span class="prompt">&gt;&gt;</span> OUTPUT FILES
+      </div>
+      <div class="download-grid">
+        <a id="bundle-link" class="download-btn" download>
+          <span class="download-icon">💾</span>
+          <span class="download-text">SCREENSAVER BUNDLE</span>
+        </a>
+        <a id="installer-link" class="download-btn" download>
+          <span class="download-icon">⚙️</span>
+          <span class="download-text">AUTO-INSTALLER</span>
+        </a>
+      </div>
+      <div class="hint-text">
+        <span class="prompt">INSTALL:</span> Extract and copy to ~/Library/Screen Savers/
+      </div>
+    </section>
+
+    <!-- Footer Info -->
+    <section class="terminal-section">
+      <div class="section-header">
+        <span class="prompt">&gt;&gt;</span> SYSTEM INFO
+      </div>
+      <ul class="info-list">
+        <li><span class="bullet">●</span> FFmpeg.wasm running in background worker thread</li>
+        <li><span class="bullet">●</span> Zero server uploads // All processing client-side</li>
+        <li><span class="bullet">●</span> macOS Gatekeeper may warn on first run → Allow via System Settings</li>
+        <li><span class="bullet">●</span> Offline-capable after first visit (Service Worker cached)</li>
       </ul>
     </section>
   </main>
 
-  <script src="lib/jszip.min.js" defer></script>
-  <script src="lib/ffmpeg.min.js" defer></script>
+  <script src="lib/jszip.min.js"></script>
+  <script src="lib/ffmpeg.min.js"></script>
   <script src="app.js" type="module"></script>
 </body>
 </html>
